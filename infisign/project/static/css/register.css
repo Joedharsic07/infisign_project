@@ -1,0 +1,169 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5;
+}
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    width: 700px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 36%);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.register-box {
+    display: flex;
+    width: 100%;
+}
+
+.register-left, .register-right {
+    width: 50%;
+    padding: 40px;
+}
+
+.register-left {
+    background-color: #ffffff;
+}
+
+.register-right {
+    background: linear-gradient(135deg, #f46b45, #eea849);
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-right h2 {
+    font-size: 24px;
+    margin: 0;
+    margin-bottom: 20px;
+
+}
+
+.register-right p {
+    font-size: 16px;
+    margin-top: 8px;
+}
+
+.register-right .button1 {
+    margin-top: 16px;
+    padding: 10px 20px;
+    color: #f46b45;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.register-right .button1:hover {
+    background-color: #f5f5f5;
+}
+
+.input-container {
+    margin-bottom: 20px;
+}
+
+.input-container label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+
+}
+.name-fields {
+    display: flex;
+    gap: 10px;
+}
+
+.field-group {
+    flex: 1;
+}
+
+.button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #f46b45, #eea849);
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background: linear-gradient(135deg, #eea849, #f46b45);
+}
+
+.login {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.login .signin {
+    color: #f46b45;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.error-message {
+    color: #ff4d4f;
+    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.input-container {
+    position: relative;
+}
+
+.toggle-button {
+    position: absolute;
+    top: 70%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: 18px;
+}
+
+/* .toggle-button i {
+    font-size: 16px;
+    color: #999;
+} */
+.password-validation{
+    font-size: 13px;
+
+}
+.forgotpass {
+    text-decoration: none;
+    text-align: right;
+    margin-bottom: 10px;
+    font-size: 15px;
+    display: block; 
+    color: darkblue;
+}
