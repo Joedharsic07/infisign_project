@@ -1,0 +1,33 @@
+.button {
+    /* width: 20%; */
+    width: 100px;
+    padding: 12px;
+    background: linear-gradient(135deg, #f46b45, #eea849);
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: absolute;
+    left: 76%;
+    margin-top: 20px;
+}
+
+.button:hover {
+    background: linear-gradient(135deg, #eea849, #f46b45);
+}
+#editor{
+    width: 70%;
+    height: 70vh;
+    margin-left: 200px;
+}
+.ql-toolbar.ql-snow {
+    width: 70%;
+    padding: 30px;
+    /* border: 4px solid black; */
+    margin-left: 200px;
+}
+.body{
+    align-items: center;
+}

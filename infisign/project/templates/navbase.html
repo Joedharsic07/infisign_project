@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Default Title{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/navbse.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <nav class="bar">
+        <div style="display: flex; gap: 20px;">
+            <div >
+                <h1 class="nav-link" >Text Editor</h1>
+            </div>
+            <div >
+                <a style="text-decoration: none;"  href="{% url 'home' %}">
+                    <h1 class="nav-link">Home</h1>
+                </a>
+            </div>
+        </div>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+        </div>
+    </nav>
+    <div style="margin-top:15px ;">
+        {% block content %}{% endblock %}
+    </div>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

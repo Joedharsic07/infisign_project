@@ -19,6 +19,8 @@ body {
     box-shadow: 0 4px 8px rgb(0 0 0 / 36%);
     border-radius: 8px;
     overflow: hidden;
+    height: 450px;
+
 }
 
 .register-box {
@@ -32,7 +34,8 @@ body {
 }
 
 /* .register-left {
-    background-color: #ffffff;
+    margin-top: 100px;
+
 } */
 
 .register-right {
