@@ -1,10 +1,13 @@
 from django.urls import path
-from.views import RegisterView, LoginView,homeview,editview,LogoutView
-
+from.views import RegisterView, LoginView,homeview,LogoutView,articledetailView
+from project.views import create_blog_post
 urlpatterns=[
     path('register/',RegisterView.as_view(),name='register'),
-    path('', LoginView.as_view(), name='login'),
+    path('login/', LoginView.as_view(), name='login'),
     path('home/', homeview.as_view(), name='home'),
-    path('editor/',editview.as_view(),name='editor'),
-    path('logout/', LogoutView.as_view(), name='logout'),  
+    path('logout/', LogoutView.as_view(), name='logout'), 
+    path('article/<int:pk>/', articledetailView.as_view(), name='article_detail'),
+    path('', create_blog_post, name='create_blog_post'),
+
+ 
 ]

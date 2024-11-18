@@ -1,10 +1,13 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
+from .models import BlogPost
+from .forms import BlogPostForm
 from django.views import View
 from .models import CustomUser 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login,  logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+# register view
 class RegisterView(View):
     def get(self, request):
         return render(request, 'register.html')
@@ -37,7 +40,7 @@ class RegisterView(View):
 
         messages.success(request, "Account created successfully. You are now logged in.")
         return redirect('home')  
-
+# login-view
 class LoginView(View):
     def post(self, request):
         email = request.POST.get('email')
@@ -57,13 +60,33 @@ class LoginView(View):
         return render(request, 'login.html', {'field_errors': field_errors})
     def get(self, request):
         return render(request, 'login.html')
-
-class homeview(LoginRequiredMixin,View):
+# home view
+class homeview(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, 'home.html')
-class editview(LoginRequiredMixin,View):
-    def get(self,request):
-        return render(request,"editor.html")
+        articles = BlogPost.objects.all()
+        article_id = request.GET.get('article_id')  
+        selected_article = None
+        if article_id:
+            selected_article = get_object_or_404(BlogPost, pk=article_id)
+        return render(request, 'home.html', {'articles': articles,'article': selected_article})
+# view article view
+class articledetailView(View):
+    def get(self, request, pk):
+        article = get_object_or_404(BlogPost, pk=pk)
+        return render(request, 'home.html', {'article': article})
+
+def create_blog_post(request):
+    if request.method == 'POST':
+        form=BlogPostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        else:
+            form=BlogPostForm
+        return render(request,'create_blog_post',{'form',BlogPostForm})
+    form = BlogPostForm()
+    return render(request, 'create_blog_post.html', {'form': form})
+# logout view
 class LogoutView(View):
     def get(self, request):
         return redirect('login')  

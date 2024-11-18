@@ -11,9 +11,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,6 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'project',
+    'django_quill',
+    'ckeditor',
+    'ckeditor_uploader',
+    'crispy_forms',
+    'crispy_bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -121,7 +130,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -130,3 +142,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'project.CustomUser' 
 
 LOGIN_REDIRECT_URL = 'home'
+
+TIME_ZONE = 'Asia/Kolkata' 
+USE_TZ = True
+
+CKEDITOR_UPLOAD_PATH = "uploads/ck_editor/"
+CKEDITOR_RESTRICT_BY_USER = False
+CKEDITOR_REQUIRE_STAFF = False
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'uploadUrl': '/ckeditor/upload/',
+        'filebrowserUploadUrl': '/ckeditor/upload/',
+        'imageUploadUrl': '/ckeditor/upload/',
+        'startupFocus': True,
+        'height': 300,
+        'width': "100%",
+    },
+}
+CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"]
+CRISPY_TEMPLATE_PACK = 'bootstrap5' 
