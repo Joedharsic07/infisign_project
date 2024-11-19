@@ -5,7 +5,6 @@ from django.views import View
 from .models import CustomUser 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login,  logout
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 # register view
 class RegisterView(View):
@@ -53,39 +52,63 @@ class LoginView(View):
         if email and password:
             user = authenticate(request, username=email, password=password)
             if user is not None:
-                login(request, user)
-                return redirect('home')
+                if user.is_superuser:
+                    login(request, user)
+                    return redirect('home')
+                else:
+                    field_errors['email'] = "Access restricted to superusers only."
             else:
                 field_errors['password'] = "Invalid email or password."
         return render(request, 'login.html', {'field_errors': field_errors})
     def get(self, request):
         return render(request, 'login.html')
 # home view
-class homeview(LoginRequiredMixin, View):
+class homeview(View):
     def get(self, request):
+        if not request.user.is_authenticated:
+            return redirect('login')
         articles = BlogPost.objects.all()
         article_id = request.GET.get('article_id')  
         selected_article = None
         if article_id:
             selected_article = get_object_or_404(BlogPost, pk=article_id)
         return render(request, 'home.html', {'articles': articles,'article': selected_article})
-# view article view
-class articledetailView(View):
-    def get(self, request, pk):
-        article = get_object_or_404(BlogPost, pk=pk)
-        return render(request, 'home.html', {'article': article})
+# create view
+class CreateBlogPostView(View):
+    def get(self, request):
+        form = BlogPostForm()
+        return render(request, 'create_blog_post.html', {'form': form})
 
-def create_blog_post(request):
-    if request.method == 'POST':
-        form=BlogPostForm(request.POST)
+    def post(self, request):
+        form = BlogPostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home') 
+        return render(request, 'create_blog_post.html', {'form': form})
+# editpage
+class EditArticleView(View):
+    def get(self, request, article_id):
+        article = get_object_or_404(BlogPost, id=article_id)
+        form = BlogPostForm(instance=article)
+        return render(request, 'edit_article.html', {'form': form, 'article': article})
+
+    def post(self, request, article_id):
+        article = get_object_or_404(BlogPost, id=article_id)
+        form = BlogPostForm(request.POST, instance=article)
         if form.is_valid():
             form.save()
             return redirect('home')
-        else:
-            form=BlogPostForm
-        return render(request,'create_blog_post',{'form',BlogPostForm})
-    form = BlogPostForm()
-    return render(request, 'create_blog_post.html', {'form': form})
+        return render(request, 'edit_article.html', {'form': form, 'article': article})
+# mainhome
+class mainhomeview(View):
+    def get(self, request):
+        articles = BlogPost.objects.all()
+        article_id = request.GET.get('article_id')  
+        selected_article = None
+        if article_id:
+            selected_article = get_object_or_404(BlogPost, pk=article_id)
+        return render(request, 'mainhome.html', {'articles': articles,'article': selected_article,})    
+
 # logout view
 class LogoutView(View):
     def get(self, request):

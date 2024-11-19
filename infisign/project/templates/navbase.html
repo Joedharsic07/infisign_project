@@ -17,28 +17,28 @@
 <body>
     <nav class="bar">
         <div style="display: flex; gap: 20px;">
-            <div >
-                <h1 class="nav-link" >Text Editor</h1>
+            <div>
+                <h1 class="nav-link">Text Editor</h1>
             </div>
-            <div >
-                <a style="text-decoration: none;"  href="{% url 'home' %}">
+            <div>
+                <a style="text-decoration: none;" href="{% url 'home' %}">
                     <h1 class="nav-link">Home</h1>
                 </a>
             </div>
         </div>
         <div class="logout">
             {% if user.is_authenticated %}
-            <span class="user-name">Hello, {{ user.email }}</span> <!-- Display user email or username -->
-        {% endif %}
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            
-            <button type="submit" class="logout-button"> <i class="bi bi-box-arrow-right"></i> Logout</button>
-        </form>
-    </div>
+            <!-- <span class="user-name">Hello, {{ user.email }}</span>   -->
+            {% endif %}
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+
+                <button type="submit" class="logout-button"> <i class="bi bi-box-arrow-right"></i> Logout</button>
+            </form>
         </div>
+       
     </nav>
-        {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
     {% block extra_js %}{% endblock %}
 </body>
 

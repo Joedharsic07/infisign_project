@@ -20,7 +20,6 @@
     {% block content %}
     <div class="container-fluid mt-3">
         <div class="row">
-            <!-- Sidebar -->
             <div class="col-lg-3 col-md-4 col-sm-12">
                 <h3 class="heading">Articles</h3>
                 <div class="list-group">
@@ -28,13 +27,12 @@
                     <a href="?article_id={{ article.id }}" class="list-group-item list-group-item-action">
                         {{ article.title }}
                     </a>
+                    <a href="{% url 'edit_article' article.id %}" class="btn btn-secondary btn-sm">Edit</a>
                     {% empty %}
                     <div class="alert alert-warning" role="alert">No articles found.</div>
                     {% endfor %}
                 </div>
             </div>
-
-            <!-- Main Content -->
             <div class="col-lg-9 col-md-8 col-sm-12">
                 {% if article %}
                 <div class="article-content">
@@ -42,9 +40,9 @@
                     <p>{{ article.content|safe }}</p>
                 </div>
                 {% else %}
-                <!-- <div class="alert alert-info">
+                <div class="alert">
                     Select an article from the list to view its content.
-                </div> -->
+                </div>
                 {% endif %}
             </div>
         </div>
@@ -52,7 +50,9 @@
             <button class="button">Create New Article</button>
         </a>
     </div>
-    {% endblock %}
+{% endblock %}
+
+
 
     
 </body>

@@ -1,5 +1,7 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
+
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
@@ -32,7 +34,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 class BlogPost(models.Model):
     title = models.CharField(max_length=255)
-    content = RichTextField() 
+    content = RichTextUploadingField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
