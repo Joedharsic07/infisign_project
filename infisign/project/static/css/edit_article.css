@@ -2,12 +2,14 @@ body {
     background-color: #f8f9fa;
     font-family: Arial, sans-serif;
 }
-.container {
-    max-width: 800px;
+.container-fluid {
+    max-width: 1425px;
     margin-top: 50px;
+    margin-bottom: 20px;
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
 }
 h2 {
     font-size: 2rem;
@@ -15,17 +17,20 @@ h2 {
     padding-top: 16px;
 
 }
-.form-group label {
+/* .form-group label {
     font-weight: bold;
-}
+} */
 .btn {
     width: 18%;
     padding: 10px;
 }
 .btn-primary {
+    margin-top: 20px;
     background-color: #007bff;
     border-color: #007bff;
-}
+    position: relative;
+    left: 1278px;
+    width: 100px;}
 .btn-primary:hover {
     background-color: #0056b3;
     border-color: #0056b3;
@@ -38,13 +43,40 @@ h2 {
     background-color: #5a6268;
     border-color: #5a6268;
 }
-.form-control {
-    border-radius: .25rem;
-}
-.form-group {
-    margin-bottom: 1.5rem;
-}
+
 .cancel-button {
     margin-top: 10px;
     text-align: center;
+}
+.back{
+    position: absolute;
+    top: 60px;
+    font-size: 20px;
+    color: black;
+    font-weight: bold;
+}
+.back:hover{
+    color: #272727;
+    text-decoration: none;
+}
+.button{
+    position: relative;
+    left: 550px;
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 8px;
+}
+
+.django-ckeditor-widget{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+.bi{
+    font-size: 15px;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+.bi:hover{
+    color: #000000;
 }

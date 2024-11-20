@@ -33,7 +33,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 class BlogPost(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, blank=True)
     content = RichTextUploadingField()
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -15,15 +15,20 @@
     <title>Create Blog Post</title>
 </head>
 <body>
+    
     {% block content %}
+    <a class="back" href="{% url 'home' %}">
+        <i class="bi bi-arrow-left" style="font-size: 20px;"></i>Back
+    </a>
     <div class="container">
-    <form method="POST">
+    <form method="POST" style="margin-top: 50px ;">
         {% csrf_token %}
         {{form.media}}
         {{ form|crispy }}
         <button type="submit" class="button">Save Post</button>
     </div>
     </form>
+    
     {% endblock %}
 </body>
 </html>

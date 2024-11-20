@@ -8,7 +8,4 @@ urlpatterns=[
     path('create/', CreateBlogPostView.as_view(), name='create_blog_post'),
     path('edit_article/<int:article_id>/', EditArticleView.as_view(), name='edit_article'),
     path('',mainhomeview.as_view(),name='mainhome')
-
-
- 
 ]

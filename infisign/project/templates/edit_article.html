@@ -8,25 +8,65 @@
     <title>Edit Article</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'css/edit_article.css' %}">
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 </head>
-
 <body>
-    <div class="container">
-        <h2 class="text-center">Edit Article</h2>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                {{ form.as_p }}
+    <div class="container-fluid">
+        <a href="{% url 'home' %}" class="back" ><i class="bi bi-arrow-left" style="font-size:24px;"></i>Back</a>
+
+        <h2 class="text-center" id="title-display">
+            {{ article.title }}
+            <span><i class="bi bi-pencil" id="edit-title-icon" style="cursor: pointer;"></i></span>
+        </h2>
+    <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <input type="hidden" name="title" id="id_title" value="{{ form.title.value }}" >
+    {% for field in form %}
+        {% if field.name != 'title' %}
+            <div class="form-field">
+                {% if field.label and field.name != 'content' %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% endif %}
+                {{ field }}
             </div>
-            <div class="button-container">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
-            </div>
-        </form>
+        {% endif %}
+    {% endfor %}
+        <button type="submit" class="btn btn-primary">Save</button>
+</div>
+</form>
     </div>
+    <script>
+       const editTitle = () => {
+    const editIcon = document.getElementById('edit-title-icon');
+    const titleDisplay = document.getElementById('title-display');
+    const titleInput = document.getElementById('id_title');
+
+    editIcon.addEventListener('click', () => {
+        const currentTitle = titleDisplay.textContent.trim();
+        titleDisplay.innerHTML = `<input type="text" id="editable-title" class="form-control" value="${currentTitle}" />`;
+        const editableInput = document.getElementById('editable-title');
+        editableInput.focus();
+
+        editableInput.addEventListener('blur', () => {
+            const updatedTitle = editableInput.value.trim();
+
+            if (updatedTitle !== "") {
+                titleDisplay.innerHTML = `${updatedTitle} <span><i class="bi bi-pencil" id="edit-title-icon" style="cursor: pointer;"></i></span>`;
+                titleInput.value = updatedTitle;
+            } else {
+                titleDisplay.innerHTML = `${currentTitle} <span><i class="bi bi-pencil" id="edit-title-icon" style="cursor: pointer;"></i></span>`;
+            }
+            editTitle();
+        });
+    });
+};
+editTitle();
+
+    </script>
 </body>
 
 </html>

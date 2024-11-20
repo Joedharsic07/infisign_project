@@ -30,3 +30,19 @@ label {
 .container{
     margin-top: 30px;
 }
+.back {
+    
+    color: black;
+    font-size: larger;
+    font-weight: bolder;
+    position: absolute;
+    left: 170px;
+    top: 96px;
+}
+a:hover{
+    color: rgb(31, 31, 31);
+    text-decoration: none;
+}
+/* .back:hover{
+    color: rgb(31, 31, 31);
+} */

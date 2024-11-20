@@ -91,7 +91,6 @@ class EditArticleView(View):
         article = get_object_or_404(BlogPost, id=article_id)
         form = BlogPostForm(instance=article)
         return render(request, 'edit_article.html', {'form': form, 'article': article})
-
     def post(self, request, article_id):
         article = get_object_or_404(BlogPost, id=article_id)
         form = BlogPostForm(request.POST, instance=article)
@@ -108,7 +107,6 @@ class mainhomeview(View):
         if article_id:
             selected_article = get_object_or_404(BlogPost, pk=article_id)
         return render(request, 'mainhome.html', {'articles': articles,'article': selected_article,})    
-
 # logout view
 class LogoutView(View):
     def get(self, request):
