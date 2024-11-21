@@ -1,24 +1,14 @@
-let toolbarOptions = [
-    ["bold", "italic", "underline", "strike"],
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ script: "sub" }, { script: "super" }],
-    [{ indent: "+1" }, { indent: "-1" }],
-    [{ align: [] }],
-    ["image", "link", "video"],
-    [{ color: [] }, { background: [] }],
-    [{ font: [] }]
-];
-let quill = new Quill("#editor", {
-    modules: { toolbar: toolbarOptions },
-    theme: "snow"
-});
-console.log(quill);
+<script>
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var articleTitle = button.data('article-title'); // Extract article title
+        var articleId = button.data('article-id'); // Extract article ID
 
+        // Update the modal content
+        var modal = $(this);
+        modal.find('#articleTitle').text(articleTitle);
 
-document.querySelector('form').onsubmit = function(event) {
-    console.log("********************")
-    var content = quill.root.innerHTML;
-    console.log("content", content)
-    document.querySelector('#content').value = content;
-};
+        // Update the delete confirmation button's URL
+        modal.find('#confirmDeleteBtn').attr('href', `/delete/${articleId}/`);
+    });
+</script>

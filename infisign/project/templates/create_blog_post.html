@@ -20,12 +20,12 @@
     <a class="back" href="{% url 'home' %}">
         <i class="bi bi-arrow-left" style="font-size: 20px;"></i>Back
     </a>
-    <div class="container">
+    <div class="container-fluid">
     <form method="POST" style="margin-top: 50px ;">
         {% csrf_token %}
         {{form.media}}
         {{ form|crispy }}
-        <button type="submit" class="button">Save Post</button>
+        <button type="submit" class="button">Save</button>
     </div>
     </form>
     
