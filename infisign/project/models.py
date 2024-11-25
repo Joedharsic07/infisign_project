@@ -32,9 +32,18 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []  
     def __str__(self):
         return self.email
+
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return self.name
+    
 class BlogPost(models.Model):
     title = models.CharField(max_length=255)
     content = RichTextUploadingField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
