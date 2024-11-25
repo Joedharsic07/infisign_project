@@ -4,6 +4,8 @@ from .forms import BlogPostForm
 from django.views import View
 from .models import CustomUser 
 from django.contrib import messages
+from django.http import JsonResponse
+
 from django.contrib.auth import authenticate, login,logout
 
 # register view
@@ -77,6 +79,14 @@ class homeview(View):
         elif articles.exists(): 
             selected_article = articles.first()
         return render(request, 'home.html', {'articles': articles,'article': selected_article})
+    def post(self, request):
+        query = request.POST.get('q', '').strip()
+        if query:
+            articles = BlogPost.objects.filter(title__icontains=query)
+        else:
+            articles = BlogPost.objects.none()  
+        data = {'results': [{'id': article.id, 'title': article.title} for article in articles]}
+        return JsonResponse(data)
     
 # create view
 class CreateBlogPostView(View):
@@ -115,6 +125,7 @@ class mainhomeview(View):
         elif articles.exists():
             selected_article = articles.first()
         return render(request, 'mainhome.html', {'articles': articles,'article': selected_article,})
+    
 
 # delete view
 class deleteview(View):
