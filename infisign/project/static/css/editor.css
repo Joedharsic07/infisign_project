@@ -46,3 +46,10 @@
     border-radius: 5px;
 }
 
+.back{
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.back:hover{
+    text-decoration: none;
+}

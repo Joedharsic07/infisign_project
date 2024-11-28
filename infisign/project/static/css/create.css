@@ -60,7 +60,8 @@ a:hover{
     padding: 6px 8px 2px;
     white-space: normal;
     width: 1231px;
-}.container-fluid {
+}
+.container-fluid {
     max-width: 1425px;
     margin-top: 50px;
     margin-bottom: 20px;

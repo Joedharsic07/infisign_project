@@ -93,3 +93,45 @@ body {
     display: flex;
     gap: 70px;
 }
+.content{
+    background-color: white;
+    margin-top:67px; 
+    padding:20px 50px 20px 50px;
+    border: 1px solid #e9e5e5;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    margin-bottom: 20px;
+}
+.bi{
+    color: rgb(0, 0, 0);
+}
+.list-group-1{
+    display: grid;
+}
+ul {
+    list-style-type: none;
+    padding: 0px;
+}
+.article-li{
+    font-size: 20px;
+    line-height: 1.5em;
+    text-decoration: none;
+}
+.article-li:hover{
+    text-decoration: none;
+}
+.dropdown-item {
+    padding: 10px;
+    color: #000;
+    text-decoration: none;
+}
+
+#searchInput {
+    border: 1px solid #ddd;
+    transition: all 0.3s ease-in-out;
+    box-shadow: none;
+    width: 100%;
+    padding: 8px;
+}
+.contentheading{
+    text-align: center;
+}

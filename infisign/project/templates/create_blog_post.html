@@ -10,25 +10,76 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/create.css' %}">
-    
     {% endblock %}
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+
+
     <title>Create Blog Post</title>
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+
 </head>
-<body>
-    
+<body>    
     {% block content %}
     <a class="back" href="{% url 'home' %}">
         <i class="bi bi-arrow-left" style="font-size: 20px;"></i>Back
     </a>
     <div class="container-fluid">
-    <form method="POST" style="margin-top: 50px ;">
-        {% csrf_token %}
-        {{form.media}}
-        {{ form|crispy }}
-        <button type="submit" class="button">Save</button>
+        <form method="POST" style="margin-top: 50px;">
+            {% csrf_token %}
+            {{form.media}}
+            <div class="form-group">
+                <label for="id_title">Title</label>
+                <input type="text" name="title" id="id_title" class="form-control" value="{{ form.title.value|default:'' }}">
+            </div>
+            <div class="form-group">
+                {{ form.content}}
+            </div>
+            <div class="form-group">
+                <label for="id_category">Category</label>
+                <select name="category" id="id_category" class="form-control">
+                    <option value="">Select a category</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                    <option value="others">Select new category</option>
+                </select>
+            </div>
+            <div id="otherCategoryDiv" style="display: none;">
+                <label for="id_other_category">Select new category</label>
+                <input type="text" name="other_category" id="id_other_category" class="form-control" placeholder="Enter new category">
+            </div>
+            <button type="submit" class="button">Save</button>
+        </form>
     </div>
-    </form>
-    
     {% endblock %}
+    {% block extra_js %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const categorySelect = document.getElementById('id_category');
+            const otherCategoryDiv = document.getElementById('otherCategoryDiv');
+            
+            if (categorySelect.value === 'others') {
+                otherCategoryDiv.style.display = 'block';
+            } else {
+                otherCategoryDiv.style.display = 'none';
+            }
+    
+            categorySelect.addEventListener('change', function () {
+                if (this.value === 'others') {
+                    otherCategoryDiv.style.display = 'block';
+                } else {
+                    otherCategoryDiv.style.display = 'none';
+                }
+            });
+            console.log("Selected category:", categorySelect.value);
+
+        });
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJQjEUh0OJwPkkkVxA65eL8IBn91p7mFBrmE8ZfuPvzOgf" 
+    crossorigin="anonymous"></script>
+{% endblock %}
 </body>
 </html>
