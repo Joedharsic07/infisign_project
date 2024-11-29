@@ -83,12 +83,7 @@ class mainhomeview(View):
             articles = selected_category.blogposts.all()
         if article_id:
             selected_article = get_object_or_404(BlogPost, pk=article_id)
-        return render(request, 'mainhome.html', {
-            'categories': categories,
-            'selected_category': selected_category,
-            'articles': articles,
-            'selected_article': selected_article,
-        })
+        return render(request, 'mainhome.html', {'categories': categories,'selected_category': selected_category,'articles': articles,'selected_article': selected_article,})
     def post(self, request):
         query = request.POST.get('q', '').strip()  
         if query:
@@ -116,15 +111,9 @@ class homeview(View):
             articles = selected_category.blogposts.all()
         if article_id:
             selected_article = get_object_or_404(BlogPost, pk=article_id)
-        return render(request, 'home.html', {
-            'categories': categories,
-            'selected_category': selected_category,
-            'articles': articles,
-            'selected_article': selected_article,
-        })
+        return render(request, 'home.html', {'categories': categories,'selected_category': selected_category,'articles': articles,'selected_article': selected_article,})
     def post(self, request):
         query = request.POST.get('q', '').strip()  
-
         if query:
             articles = BlogPost.objects.filter(title__icontains=query)
         else:
@@ -170,7 +159,10 @@ class EditArticleView(View):
         category_id = post_data.get('category')
         other_category = post_data.get('other_category', '').strip() 
         if category_id == 'others' and other_category:
-            category, created = Category.objects.get_or_create(name=other_category)
+            try:
+                category = Category.objects.get(name=other_category)
+            except Category.DoesNotExist:
+                category = Category.objects.create(name=other_category)
             post_data['category'] = category.id  
         elif category_id:
             category = get_object_or_404(Category, id=category_id)
@@ -180,11 +172,7 @@ class EditArticleView(View):
             form.save()  
             return redirect('home')  
         categories = Category.objects.all()  
-        return render(request, 'edit_article.html', {
-            'form': form,
-            'article': article,
-            'categories': categories,
-        })
+        return render(request, 'edit_article.html', {'form': form,'article': article,'categories': categories,})
 
 # delete view
 class deleteview(View):

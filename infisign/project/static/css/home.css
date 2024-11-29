@@ -199,3 +199,12 @@ ul {
 .contentheading{
     text-align: center;
 }
+.list-group-item.active {
+    background: linear-gradient(135deg, #eea849, #f46b45);
+    color: white !important;    
+    font-weight: bold;        
+}
+.noarticle{
+    font-size: 18px;
+    color: #dc0000;
+}
