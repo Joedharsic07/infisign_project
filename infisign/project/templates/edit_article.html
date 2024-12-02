@@ -2,7 +2,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     {% block extra_css %}
     <meta charset="UTF-8">
@@ -19,9 +18,15 @@
 {% block content %}
 <body>
     <div class="container mt-4">
-        <a href="{% url 'home' %}" class="back">
-            <i class="bi bi-arrow-left" style="font-size: 18px;"></i> Back
-        </a>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}" {% endif %}>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
         <h2 class="text-center" id="title-display">
             {{ article.title }}
@@ -32,12 +37,6 @@
             {{ form.media }}
 
             <input type="hidden" name="title" id="id_title" value="{{ form.title.value }}">
-
-            <div class="form-group">
-                <label for="id_content">Content</label>
-                {{ form.content }}
-            </div>
-
             <div class="form-group">
                 <label for="id_category">Category</label>
                 <select name="category" id="id_category" class="form-control">
@@ -45,11 +44,13 @@
                         {{ article.category.name }}
                     </option>
                     {% for category in categories %}
-                        {% if category.id != article.category.id %}
-                            <option value="{{ category.id }}">{{ category.name }}</option>
-                        {% endif %}
-                    {% endfor %} 
-                    <option value="others">New Category</option>
+                    {% if category.id != article.category.id %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                    <option value="others" style="font-weight: bold; color: #007bff;">
+                        New Category
+                    </option>
                 </select>
             </div>
             <div id="otherCategoryDiv" style="display: none;" class="form-group">
@@ -57,11 +58,16 @@
                 <input type="text" name="other_category" id="id_other_category" class="form-control"
                     placeholder="Enter new category name">
             </div>
-            <button type="submit" class="btn btn-primary">Save</button>
+
+            <div class="form-group">
+                {{ form.content }}
+            </div>
+            <a href="{% url 'home' %}" class="backbutton"> Cancel</a>
+            <button type="submit" class="button">Save</button>
         </form>
     </div>
-{% endblock %}
-{% block extra_js %}
+    {% endblock %}
+    {% block extra_js %}
     <script>
         // /change new category
         document.addEventListener("DOMContentLoaded", function () {
@@ -80,7 +86,6 @@
                 }
             }
         });
-
         // Edit Title 
         const editTitle = () => {
             const editIcon = document.getElementById('edit-title-icon');
@@ -101,7 +106,7 @@
                     } else {
                         titleDisplay.innerHTML = `${currentTitle} <span><i class="bi bi-pencil" id="edit-title-icon" style="cursor: pointer;"></i></span>`;
                     }
-                    editTitle(); 
+                    editTitle();
                 });
             });
         };
@@ -109,5 +114,4 @@
     </script>
     {% endblock %}
 </body>
-
 </html>

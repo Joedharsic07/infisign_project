@@ -208,3 +208,44 @@ ul {
     font-size: 18px;
     color: #dc0000;
 }
+.toast {
+    display: flex;
+    align-items: center;
+    background: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    animation: fadein 0.5s, fadeout 0.5s 4.5s;
+}
+.toast.error {
+    background: #dc3545;
+}
+.toast.warning {
+    background: #ffc107;
+    color: black;
+}
+.toast.info {
+    background: #17a2b8;
+}
+@keyframes fadein {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes fadeout {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}

@@ -24,17 +24,61 @@ h2 {
     width: 18%;
     padding: 10px;
 }
-.btn-primary {
-    margin-top: 20px;
-    background-color: #007bff;
-    border-color: #007bff;
+.button {
     position: relative;
-    left: 1262px;
-    width: 100px;}
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+    bottom: 20px;
+    left: 1156px;
+    background-color: #f27745;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
 }
+
+.button:hover {
+    background-color: #ec6833;
+    text-decoration: none;
+}
+
+.backbutton {
+    position: relative;
+    bottom: 20px;
+    left: 1156px;
+    background-color: #f27745;
+    color: #ffffff;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 50px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+.backbutton:hover {
+    background-color: #ec6833;
+    text-decoration: none;
+}
+
+.backbutton {
+    position: relative;
+    bottom: 20px;
+    left: 1156px;
+    background-color: #f27745;
+    color: #ffffff;
+    border: none;
+    padding: 13px 20px;
+    border-radius: 50px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+.backbutton:hover {
+    background-color: #ec6833;
+    text-decoration: none;
+    color:#ffffff ;
+}
+
 .btn-secondary {
     background-color: #6c757d;
     border-color: #6c757d;
@@ -59,14 +103,6 @@ h2 {
     color: #272727;
     text-decoration: none;
 }
-.button{
-    position: relative;
-    left: 550px;
-    background-color: #007bff;
-    border-color: #007bff;
-    border-radius: 8px;
-}
-
 .django-ckeditor-widget{
     display: inline-block;
     width: 100%;

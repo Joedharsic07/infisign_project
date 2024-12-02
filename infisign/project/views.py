@@ -130,7 +130,7 @@ class CreateBlogPostView(View):
         return render(request, 'create_blog_post.html', {'form': form, 'categories': categories})
     def post(self, request):
         form = BlogPostForm(request.POST)
-        category_id = request.POST.get('category')  
+        category_id = request.POST.get('category')
         other_category = request.POST.get('other_category', '').strip()  
         if category_id == 'others' and other_category:
             try:
@@ -142,7 +142,10 @@ class CreateBlogPostView(View):
             form = BlogPostForm(request.POST)  
         if form.is_valid():
             form.save()  
+            messages.success(request,"Article submited successfully")  
             return redirect('home') 
+        else:
+            messages.error(request,"Please fill the mandatory fields")
         categories = Category.objects.all()
         return render(request, 'create_blog_post.html', {'form': form, 'categories': categories})
     
@@ -169,8 +172,8 @@ class EditArticleView(View):
             post_data['category'] = category.id
         form = BlogPostForm(post_data, instance=article)
         if form.is_valid():
-            form.save()  
-            return redirect('home')  
+            form.save()
+            return redirect('home')
         categories = Category.objects.all()  
         return render(request, 'edit_article.html', {'form': form,'article': article,'categories': categories,})
 

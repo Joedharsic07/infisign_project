@@ -14,10 +14,18 @@
     <title>Document</title>
     {% endblock %}
 </head>
-
 <body>
     {% block content %}
     <div class="container-fluid mt-3">
+        {% if messages %}
+		<div class="messages">
+		{% for message in messages %}
+			<div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+				{{ message }}
+			</div>
+		{% endfor %}
+		</div>
+	{% endif %}
         <div class="row">
             <div class="col-lg-3 col-md-4 col-sm-12">
                 <h3 class="heading">Categories</h3>
@@ -190,5 +198,4 @@
     </script>
     {% endblock %}
 </body>
-
 </html>
