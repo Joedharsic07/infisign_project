@@ -141,11 +141,9 @@ class CreateBlogPostView(View):
             request.POST['category'] = category.id  
             form = BlogPostForm(request.POST)  
         if form.is_valid():
-            form.save()  
-            messages.success(request,"Article submited successfully")  
+            blog_post=form.save()  
+            messages.success(request,f"Article '{blog_post.title}' created successfully.") 
             return redirect('home') 
-        else:
-            messages.error(request,"Please fill the mandatory fields")
         categories = Category.objects.all()
         return render(request, 'create_blog_post.html', {'form': form, 'categories': categories})
     
@@ -172,7 +170,8 @@ class EditArticleView(View):
             post_data['category'] = category.id
         form = BlogPostForm(post_data, instance=article)
         if form.is_valid():
-            form.save()
+            edited_article=form.save()
+            messages.success(request, f"Article '{edited_article.title}' edited successfully.")
             return redirect('home')
         categories = Category.objects.all()  
         return render(request, 'edit_article.html', {'form': form,'article': article,'categories': categories,})
@@ -181,9 +180,19 @@ class EditArticleView(View):
 class deleteview(View):
     def get(self, request, article_id):
         article = get_object_or_404(BlogPost, id=article_id)
+        category_id = article.category.id
         article.delete()
-        return redirect('home')
-    
+        messages.success(request,'Article deleted successfully.')
+        return redirect(f"/home/?category_id={category_id}")
+
+#delete category
+class deletecategoryView(View):
+    def get(self, request, category_id):
+        category = get_object_or_404(Category, id=category_id)
+        category.delete()
+        messages.success(request,'Category deleted successfully.')
+        return redirect('home') 
+
 # logout view
 class LogoutView(View):  
     def post(self, request):

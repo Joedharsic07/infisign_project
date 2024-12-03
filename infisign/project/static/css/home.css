@@ -137,7 +137,6 @@ body {
     color: #000;
     text-decoration: none;
 }
-
 #searchInput {
     border: 1px solid #ddd;
     transition: all 0.3s ease-in-out;
@@ -145,29 +144,23 @@ body {
     width: 100%;
     padding: 8px;
 }
-
-
 #searchResults {
     border: 1px solid #ddd;
     background-color: #fff;
     border-radius: 0.25rem;
 }
-
 #searchResults .search-result {
     padding: 10px 15px;
     cursor: pointer;
     transition: background-color 0.2s;
 }
-
 #searchResults .search-result:hover {
     background-color: #f8f9fa;
 }
-
 #searchResults a {
     text-decoration: none;
     color: #333;
 }
-
 #searchResults .text-warning {
     color: #6d6d6d !important; 
     text-align: center;
@@ -188,7 +181,6 @@ body {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     margin-bottom: 20px;
 }
-
 .list-group-1{
     display: grid;
 }
@@ -208,44 +200,65 @@ ul {
     font-size: 18px;
     color: #dc0000;
 }
-.toast {
-    display: flex;
-    align-items: center;
-    background: #28a745;
-    color: white;
-    padding: 10px 20px;
+.modal.show .modal-dialog {
+    -webkit-transform: none;
+    transform: none;
+    margin-top: 250px;
+}
+.modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    text-align: center;
+    margin-left: 150px;
+}
+.category-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
     border-radius: 5px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    animation: fadein 0.5s, fadeout 0.5s 4.5s;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
-.toast.error {
-    background: #dc3545;
+.category-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
 }
-.toast.warning {
-    background: #ffc107;
-    color: black;
+.category-item.active {
+    background: linear-gradient(135deg, #eea849, #f46b45); 
+    font-weight: bold;
 }
-.toast.info {
-    background: #17a2b8;
+.category-item.active .category-name {
+    color: white !important; 
 }
-@keyframes fadein {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.category-name {
+    font-size: 16px;
+    color: black; 
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
-@keyframes fadeout {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
+.category-name:hover {
+    color: #000000; 
+    text-decoration: none;
 }
+.category-item:hover {
+    background-color: #dedede; 
+}
+
+.category-item .ms-2 {
+    margin-left: 10px;
+}
+
+.category-item .bi-trash {
+    font-size: 18px;
+    color: #000000;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.category-item .bi-trash:hover {
+    color: #292929; 
+}
+
