@@ -100,6 +100,7 @@ class homeview(View):
         categories = Category.objects.all()
         category_id = request.GET.get('category_id')  
         article_id = request.GET.get('article_id')
+        sort_by = request.GET.get('sort_by', 'A-Z') 
         selected_category = None
         selected_article = None
         articles = None  
@@ -109,9 +110,23 @@ class homeview(View):
         elif category_id:
             selected_category = get_object_or_404(Category, pk=category_id)
             articles = selected_category.blogposts.all()
+        if sort_by=='A-Z':
+            articles = articles.order_by('title') 
+        elif sort_by=='Z-A':
+            articles=articles.order_by('-title')  
+        elif sort_by=='new':
+            articles = articles.order_by('-created_at')
+        elif sort_by=='old':
+            articles = articles.order_by('created_at')
         if article_id:
             selected_article = get_object_or_404(BlogPost, pk=article_id)
-        return render(request, 'home.html', {'categories': categories,'selected_category': selected_category,'articles': articles,'selected_article': selected_article,})
+        return render(request, 'home.html', {
+            'categories': categories,
+            'selected_category': selected_category,
+            'articles': articles,
+            'selected_article': selected_article,
+            'selected_sort': sort_by,  
+        })
     def post(self, request):
         query = request.POST.get('q', '').strip()  
         if query:

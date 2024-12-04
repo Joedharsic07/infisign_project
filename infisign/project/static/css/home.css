@@ -261,4 +261,15 @@ ul {
 .category-item .bi-trash:hover {
     color: #292929; 
 }
-
+.sort-dropdown{
+    position: absolute;
+    top: 95px;
+    right: 100px;
+    cursor: pointer;
+   
+}
+.selectsort{
+    width: 150px;
+    border-radius: 5px;
+    cursor: pointer;
+}
