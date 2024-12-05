@@ -53,8 +53,17 @@ body {
 }
 .list-group{
     display: flex;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border: 1px solid #e9e5e5;
 }
-
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: none;
+}
 .button-1 {
     position: fixed;
     bottom: 20px;
@@ -92,4 +101,72 @@ body {
 .buttons{
     display: flex;
     gap: 70px;
+}
+.content{
+    background-color: white;
+    margin-top:67px; 
+    padding:20px 50px 20px 50px;
+    border: 1px solid #e9e5e5;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    margin-bottom: 20px;
+}
+.bi{
+    color: rgb(0, 0, 0);
+}
+.list-group-1{
+    display: grid;
+}
+ul {
+    list-style-type: none;
+    padding: 0px;
+}
+.article-li{
+    font-size: 20px;
+    line-height: 1.5em;
+    text-decoration: none;
+}
+.article-li:hover{
+    text-decoration: none;
+}
+.dropdown-item {
+    padding: 10px;
+    color: #000;
+    text-decoration: none;
+}
+
+#searchInput {
+    border: 1px solid #ddd;
+    transition: all 0.3s ease-in-out;
+    box-shadow: none;
+    width: 100%;
+    padding: 8px;
+}
+.contentheading{
+    text-align: center;
+}
+
+.bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #eea849, #f46b45);
+    border-bottom: 1px solid #ddd;
+}
+
+.nav-link {
+    margin: 0;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    text-align: right;
+}
+.list-group-item.active {
+    background: linear-gradient(135deg, #eea849, #f46b45);
+    color: white !important;    
+    font-weight: bold;        
+}
+.noarticle{
+    font-size: 18px;
+    color: #dc0000;
 }

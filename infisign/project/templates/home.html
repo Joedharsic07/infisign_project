@@ -9,191 +9,297 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css" />
     <link rel="stylesheet" href="{% static 'css/editor.css' %}">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <title>Document</title>
     {% endblock %}
 </head>
-
 <body>
     {% block content %}
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-lg-3 col-md-4 col-sm-12">
-                <h3 class="heading">Articles</h3>
-                <div style="position: relative;">
+                <h3 class="heading">Categories</h3>
+                <div style="position: relative; margin-bottom: 20px;">
                     <form method="post" id="searchForm">
                         {% csrf_token %}
-                        <input
-                            type="text"
-                            id="searchInput"
-                            placeholder="Search"
-                            name="q"
-                            class="searchinput"
-                            value="{{ query|default:'' }}"
-                            autocomplete="off"
-                        />
+                        <input type="text" id="searchInput" placeholder="Search" name="q" class="searchinput"
+                            value="{{ query|default:'' }}" autocomplete="off">
                     </form>
-                    <div
-                        id="searchResults"
-                        class="dropdown-menu w-100"
-                        style="display: none; max-height: 300px; overflow-y: auto; position: absolute; z-index: 1000;"
-                    ></div>
-                </div>
-                
-                <div class="list-group">
-                    {% for article in articles %}
-                    <a href="?article_id={{ article.id }}" class="list-group-item list-group-item-action">
-                        {{ article.title }}
-                    </a>
-                    <div class="buttons">
-                        <a href="{% url 'edit_article' article.id %}" class="btn btn-secondary btn-sm">Edit</a>
-                        <button class="btn-secondary-1 btn-sm" data-toggle="modal" data-target="#deleteModal"
-                            data-article-title="{{ article.title }}" data-article-id="{{ article.id }}">
-                            Delete
-                        </button>
+                    <div id="searchResults" class="dropdown-menu w-100"
+                        style="display: none; max-height: 300px; overflow-y: auto; position: absolute; z-index: 1000;">
                     </div>
-                    {% empty %}
-                    <!-- <div class="alert alert-warning" role="alert">No articles found.</div> -->
+                </div>
+                <ul class="category-list">
+                    {% for category in categories %}
+                    <li class="category-item {% if selected_category and category.id == selected_category.id %}active{% endif %}"
+                        data-category-id="{{ category.id }}">
+                        <a href="?category_id={{ category.id }}" class="category-name">
+                            {{ category.name }}
+                            {% if selected_category and category.id == selected_category.id %}
+                            <span><i class="icon-arrow"></i></span>
+                            {% endif %}
+                            <div class="categoryicons" >
+                                <a href="#" class="text-danger" data-toggle="modal" data-target="#deleteCategoryModal"
+                                    data-category-id="{{ category.id }}" data-category-name="{{ category.name }}">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                                <a href="#" class="text-warning mr-2" title="Edit" data-toggle="modal" data-target="#editCategoryModal"
+                                    data-category-id="{{ category.id }}" data-category-name="{{ category.name }}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                            </div>
+                        </a>
+                    </li>
                     {% endfor %}
-                </div>
+                </ul>
             </div>
-            <div class="col-lg-9 col-md-8 col-sm-12">
-                {% if articles %}
-                    <a href="{% url 'create_blog_post' %}" class="button float-right">
-                        <i class="bi bi-plus-lg"></i> Create
-                    </a>
-                    {% if article %}
-                        <div class="article-content">
-                            <h3 class="article_title">{{ article.title }}</h3>
-                            <p>{{ article.content|safe }}</p>
-                        </div>
-                    {% else %}
-                        <div class="alert">
-                            Select an article from the list to view its content.
-                        </div>
-                    {% endif %}
+            <div class="col-lg-9 col-md-8 col-sm-12" style="padding-right: 30px;">
+                {% if not categories %}
+                    <div class="center-btn">
+                        <a href="{% url 'create_blog_post' %}" class="btn btn-primary">
+                            <i class="bi bi-plus-lg"></i> Create
+                        </a>
+                    </div>
                 {% else %}
-                <div class="d-flex justify-content-center align-items-center" style="height: 100vh; flex-direction: column; text-align: center;">
-                    <h3 style="margin-bottom: 20px;">Create Your Article</h3>
-                    <a href="{% url 'create_blog_post' %}" class="button">
-                        <i class="bi bi-plus-lg"></i> Create
-                    </a>
-                </div>
-                
+                    <div class="create-btn">
+                        <a href="{% url 'create_blog_post' %}" class="button">
+                            <i class="bi bi-plus-lg"></i> Create
+                        </a>
+                    </div>
                 {% endif %}
+                <div class="content">
+                    {% if selected_category and not selected_article %}
+                        <h3 class="heading">{{ selected_category.name }}</h3>
+                        <div class="sort-dropdown">
+                            <select class="selectsort" name="sort_by" id="sortDropdown">
+                                <option value="A-Z" {% if selected_sort == 'A-Z' %}selected{% endif %}>Sort by A-Z</option>
+                                <option value="Z-A" {% if selected_sort == 'Z-A' %}selected{% endif %}>Sort by Z-A</option>
+                                <option value="old" {% if selected_sort == 'old' %}selected{% endif %}>Sort by oldest-newest</option>
+                                <option value="new" {% if selected_sort == 'new' %}selected{% endif %}>Sort by newest-oldest</option>
+                            </select>
+                        </div>                        
+                        <ul>
+                            {% if articles %}
+                                {% for article in articles %}
+                                <li>
+                                    <a href="?category_id={{ selected_category.id }}&article_id={{ article.id }}"
+                                       class="article-li">
+                                        <i class="bi bi-file-earmark-text"></i> {{ article.title }}
+                                    </a>
+                                    <a href="{% url 'edit_article' article.id %}" class="text-warning mr-2" title="Edit">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a href="{% url 'delete' article.id %}?category_id={{ selected_category.id }}"
+                                       class="text-danger" title="Delete" data-toggle="modal" data-target="#deleteModal"
+                                       data-article-id="{{ article.id }}" data-article-title="{{ article.title }}">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            {% else %}
+                                <li class="noarticle">No articles in this category.</li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                    {% if selected_article %}
+                    <div class="mt-4">
+                        <h3 class="contentheading">{{ selected_article.title }}</h3>
+                        <p>{{ selected_article.content|safe }}</p>
+                    </div>
+                    {% endif %}
+                </div>  
             </div>
-            
-
+              
         </div>
-
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <!-- category model -->
+    <div class="modal fade" id="deleteCategoryModal" tabindex="-1" role="dialog"
+        aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Article</h5>
+                    <h5 class="modal-title" id="deleteCategoryModalLabel">Delete Category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete the article "<span id="articleTitle"></span>"?
+                    Are you sure you want to delete this category: <strong id="categoryTitle"></strong>? <br>
+                    <strong>Deleting this category will also delete all articles associated with it. </strong>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <a id="confirmDeleteBtn" href="#" class="btn btn-danger">Delete</a>
+                    <a href="#" id="confirmDeleteCategoryBtn" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
     </div>
-    
+    <!-- article model -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Blog Post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this post: <strong id="articleTitle"></strong>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- edit category model -->
+    <div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="editCategoryModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" id="editCategoryForm" action="{% url 'edit_category' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="categoryName">Category Name</label>
+                        <input type="text" class="form-control" id="categoryName" name="name" required>
+                        <input type="hidden" id="categoryId" name="id">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+    </div>
     {% endblock %}
-</body>
-{% block extra_js %}
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
-<script>
-       $(document).ready(function () {
-    $('#deleteModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); 
-        var articleTitle = button.data('article-title'); 
-        var articleId = button.data('article-id'); 
-        
-        var modal = $(this);
-        modal.find('#articleTitle').text(articleTitle); 
-        modal.find('#confirmDeleteBtn').attr('href', `/delete/${articleId}/`); 
-    });
-});
-
-    $(document).ready(function () {
-    let typingTimer; 
-    const typingDelay = 300; 
-    $('#searchInput').on('input', function () {
-        clearTimeout(typingTimer); 
-        const query = $(this).val().trim(); 
-
-        if (query.length > 0) {
-            typingTimer = setTimeout(() => {
-                $.ajax({
-                    url: window.location.pathname, 
-                    type: 'POST',
-                    data: {
-                        q: query,
-                        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
-                    },
-                    success: function (response) {
-                        const resultsContainer = $('#searchResults');
-                        resultsContainer.empty();
-                        if (response.results && response.results.length > 0) {
-                            response.results.forEach((article) => {
-                                resultsContainer.append(`
+    {% block extra_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+    <script>
+        {% for message in messages %}
+        alertify.set('notifier', 'position', 'top-right');
+        alertify.success('{{message}}')
+        {% endfor %}
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#deleteModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var articleTitle = button.data('article-title');
+                var articleId = button.data('article-id');
+                var modal = $(this);
+                modal.find('#articleTitle').text(articleTitle);
+                modal.find('#confirmDeleteBtn').attr('href', `/delete/${articleId}/`);
+            });
+        });
+        $(document).ready(function () {
+            $('#deleteCategoryModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var categoryName = button.data('category-name');
+                var categoryId = button.data('category-id');
+                var modal = $(this);
+                modal.find('#categoryTitle').text(categoryName);
+                modal.find('#confirmDeleteCategoryBtn').attr('href', `/category/delete/${categoryId}/`);
+            });
+        });
+        $(document).ready(function () {
+            let typingTimer;
+            const typingDelay = 300;
+            $('#searchInput').on('input', function () {
+                clearTimeout(typingTimer);
+                const query = $(this).val().trim();
+                if (query.length > 0) {
+                    typingTimer = setTimeout(() => {
+                        $.ajax({
+                            url: window.location.pathname,
+                            type: 'POST',
+                            data: {
+                                q: query,
+                                csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
+                            },
+                            success: function (response) {
+                                const resultsContainer = $('#searchResults');
+                                resultsContainer.empty();
+                                if (response.results && response.results.length > 0) {
+                                    response.results.forEach((article) => {
+                                        resultsContainer.append(`
                                     <div class="search-result">
                                         <a href="?article_id=${article.id}" class="dropdown-item">
                                             ${article.title}
                                         </a>
                                     </div>
                                 `);
-                            });
-                            resultsContainer.show();
-                        } else {
-                            resultsContainer.html(
-                                '<div class="dropdown-item text-warning">No articles found.</div>'
-                            );
-                            resultsContainer.show(); 
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error fetching search results:', error);
-                    },
-                });
-            }, typingDelay); 
-        } else {
-            $('#searchResults').hide(); 
-        }
+                                    });
+                                    resultsContainer.show();
+                                } else {
+                                    resultsContainer.html(
+                                        '<div class="dropdown-item text-warning">No articles found.</div>'
+                                    );
+                                    resultsContainer.show();
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error fetching search results:', error);
+                            },
+                        });
+                    }, typingDelay);
+                } else {
+                    $('#searchResults').hide();
+                }
+            });
+
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('#searchResults, #searchInput').length) {
+                    $('#searchResults').hide();
+                }
+            });
+        });
+        $('#sortDropdown').on('change', function () {
+            var selectedSort = $(this).val();  
+            var categoryId = '{{ selected_category.id }}';  
+            var url = new URL(window.location.href);
+            if (categoryId) {
+                url.searchParams.set('category_id', categoryId);
+            }
+            if (selectedSort) {
+                url.searchParams.set('sort_by', selectedSort);
+            } else {
+                url.searchParams.delete('sort_by'); 
+            }
+            window.location.href = url.toString();
+        });
+    $(document).ready(function () {
+        $('#editCategoryModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var categoryName = button.data('category-name');
+            var categoryId = button.data('category-id');
+            var modal = $(this);
+            modal.find('#categoryName').val(categoryName);
+            modal.find('#categoryId').val(categoryId);
+        });
     });
-
-    $(document).on('click', function (e) {
-        if (!$(e.target).closest('#searchResults, #searchInput').length) {
-            $('#searchResults').hide();
-        }
-    });
-});
-
-
-</script>
-{% endblock %}
+    </script>
+    {% endblock %}
+</body>
 
 </html>

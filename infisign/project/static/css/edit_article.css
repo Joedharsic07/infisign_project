@@ -1,8 +1,8 @@
 body {
-    background-color: #f8f9fa;
+    background-color: whitesmoke;
     font-family: Arial, sans-serif;
 }
-.container-fluid {
+/* .container-fluid {
     max-width: 1425px;
     margin-top: 50px;
     margin-bottom: 20px;
@@ -10,7 +10,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 25px;
-}
+} */
 h2 {
     font-size: 2rem;
     margin-bottom: 16px;
@@ -24,17 +24,61 @@ h2 {
     width: 18%;
     padding: 10px;
 }
-.btn-primary {
-    margin-top: 20px;
-    background-color: #007bff;
-    border-color: #007bff;
+.button {
     position: relative;
-    left: 1278px;
-    width: 100px;}
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+    bottom: 20px;
+    left: 1156px;
+    background-color: #f27745;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
 }
+
+.button:hover {
+    background-color: #ec6833;
+    text-decoration: none;
+}
+
+.backbutton {
+    position: relative;
+    bottom: 20px;
+    left: 1156px;
+    background-color: #f27745;
+    color: #ffffff;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 50px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+.backbutton:hover {
+    background-color: #ec6833;
+    text-decoration: none;
+}
+
+.backbutton {
+    position: relative;
+    bottom: 20px;
+    left: 1156px;
+    background-color: #f27745;
+    color: #ffffff;
+    border: none;
+    padding: 13px 20px;
+    border-radius: 50px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+.backbutton:hover {
+    background-color: #ec6833;
+    text-decoration: none;
+    color:#ffffff ;
+}
+
 .btn-secondary {
     background-color: #6c757d;
     border-color: #6c757d;
@@ -50,7 +94,7 @@ h2 {
 }
 .back{
     position: absolute;
-    top: 60px;
+    top: 117px;
     font-size: 20px;
     color: black;
     font-weight: bold;
@@ -59,14 +103,6 @@ h2 {
     color: #272727;
     text-decoration: none;
 }
-.button{
-    position: relative;
-    left: 550px;
-    background-color: #007bff;
-    border-color: #007bff;
-    border-radius: 8px;
-}
-
 .django-ckeditor-widget{
     display: inline-block;
     width: 100%;
@@ -79,4 +115,14 @@ h2 {
 }
 .bi:hover{
     color: #000000;
+}
+.container{
+    background-color: #f8f9fa;
+    padding: 30px;
+    margin-bottom: 20px;
+    border: 1px solid #e9e5e5;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;  
+    max-width: 1425px;
+    margin-top: 50px;   
+    border-radius: 10px;
 }

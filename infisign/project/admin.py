@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
-from .models import BlogPost
+from .models import BlogPost,Category
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 
@@ -27,6 +27,11 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
 admin.site.register(CustomUser, CustomUserAdmin)
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')  
+    search_fields = ('name',)
 
 class BlogPostAdminForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditorUploadingWidget())
