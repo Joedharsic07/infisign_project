@@ -39,22 +39,25 @@
                         data-category-id="{{ category.id }}">
                         <a href="?category_id={{ category.id }}" class="category-name">
                             {{ category.name }}
-
                             {% if selected_category and category.id == selected_category.id %}
                             <span><i class="icon-arrow"></i></span>
                             {% endif %}
-                            <span class="ms-2">
+                            <div class="categoryicons" >
                                 <a href="#" class="text-danger" data-toggle="modal" data-target="#deleteCategoryModal"
                                     data-category-id="{{ category.id }}" data-category-name="{{ category.name }}">
                                     <i class="bi bi-trash"></i>
                                 </a>
-                            </span>
+                                <a href="#" class="text-warning mr-2" title="Edit" data-toggle="modal" data-target="#editCategoryModal"
+                                    data-category-id="{{ category.id }}" data-category-name="{{ category.name }}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                            </div>
                         </a>
                     </li>
                     {% endfor %}
                 </ul>
             </div>
-            <div class="col-lg-9 col-md-8 col-sm-12">
+            <div class="col-lg-9 col-md-8 col-sm-12" style="padding-right: 30px;">
                 {% if not categories %}
                     <div class="center-btn">
                         <a href="{% url 'create_blog_post' %}" class="btn btn-primary">
@@ -75,8 +78,8 @@
                             <select class="selectsort" name="sort_by" id="sortDropdown">
                                 <option value="A-Z" {% if selected_sort == 'A-Z' %}selected{% endif %}>Sort by A-Z</option>
                                 <option value="Z-A" {% if selected_sort == 'Z-A' %}selected{% endif %}>Sort by Z-A</option>
-                                <option value="new" {% if selected_sort == 'new' %}selected{% endif %}>Sort by new</option>
-                                <option value="old" {% if selected_sort == 'old' %}selected{% endif %}>Sort by old</option>
+                                <option value="old" {% if selected_sort == 'old' %}selected{% endif %}>Sort by oldest-newest</option>
+                                <option value="new" {% if selected_sort == 'new' %}selected{% endif %}>Sort by newest-oldest</option>
                             </select>
                         </div>                        
                         <ul>
@@ -156,6 +159,36 @@
             </div>
         </div>
     </div>
+    <!-- edit category model -->
+    <div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="editCategoryModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" id="editCategoryForm" action="{% url 'edit_category' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="categoryName">Category Name</label>
+                        <input type="text" class="form-control" id="categoryName" name="name" required>
+                        <input type="hidden" id="categoryId" name="id">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
     </div>
     {% endblock %}
     {% block extra_js %}
@@ -241,21 +274,30 @@
                 }
             });
         });
-            $('#sortDropdown').on('change', function () {
-        var selectedSort = $(this).val();  
-        var categoryId = '{{ selected_category.id }}';  
-        var url = new URL(window.location.href);
-        if (categoryId) {
-            url.searchParams.set('category_id', categoryId);
-        }
-        if (selectedSort) {
-            url.searchParams.set('sort_by', selectedSort);
-        } else {
-            url.searchParams.delete('sort_by'); 
-        }
-        window.location.href = url.toString();
+        $('#sortDropdown').on('change', function () {
+            var selectedSort = $(this).val();  
+            var categoryId = '{{ selected_category.id }}';  
+            var url = new URL(window.location.href);
+            if (categoryId) {
+                url.searchParams.set('category_id', categoryId);
+            }
+            if (selectedSort) {
+                url.searchParams.set('sort_by', selectedSort);
+            } else {
+                url.searchParams.delete('sort_by'); 
+            }
+            window.location.href = url.toString();
+        });
+    $(document).ready(function () {
+        $('#editCategoryModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var categoryName = button.data('category-name');
+            var categoryId = button.data('category-id');
+            var modal = $(this);
+            modal.find('#categoryName').val(categoryName);
+            modal.find('#categoryId').val(categoryId);
+        });
     });
-
     </script>
     {% endblock %}
 </body>

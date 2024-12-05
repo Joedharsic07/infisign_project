@@ -269,7 +269,12 @@ ul {
    
 }
 .selectsort{
-    width: 150px;
+    width: 195px;
     border-radius: 5px;
     cursor: pointer;
+    padding: 5px;
+}
+.categoryicons{
+    display: flex;
+    gap: 10px;
 }

@@ -121,12 +121,7 @@ class homeview(View):
         if article_id:
             selected_article = get_object_or_404(BlogPost, pk=article_id)
         return render(request, 'home.html', {
-            'categories': categories,
-            'selected_category': selected_category,
-            'articles': articles,
-            'selected_article': selected_article,
-            'selected_sort': sort_by,  
-        })
+            'categories': categories,'selected_category': selected_category,'articles': articles,'selected_article': selected_article,'selected_sort': sort_by,})
     def post(self, request):
         query = request.POST.get('q', '').strip()  
         if query:
@@ -157,7 +152,7 @@ class CreateBlogPostView(View):
             form = BlogPostForm(request.POST)  
         if form.is_valid():
             blog_post=form.save()  
-            messages.success(request,f"Article '{blog_post.title}' created successfully.") 
+            messages.success(request,f"Article '{blog_post.title}' created successfully") 
             return redirect('home') 
         categories = Category.objects.all()
         return render(request, 'create_blog_post.html', {'form': form, 'categories': categories})
@@ -186,7 +181,7 @@ class EditArticleView(View):
         form = BlogPostForm(post_data, instance=article)
         if form.is_valid():
             edited_article=form.save()
-            messages.success(request, f"Article '{edited_article.title}' edited successfully.")
+            messages.success(request, f"Article '{edited_article.title}' edited successfully")
             return redirect('home')
         categories = Category.objects.all()  
         return render(request, 'edit_article.html', {'form': form,'article': article,'categories': categories,})
@@ -207,6 +202,19 @@ class deletecategoryView(View):
         category.delete()
         messages.success(request,'Category deleted successfully.')
         return redirect('home') 
+
+# edit category
+class editcategoryView(View):
+    def post(self, request):
+        category_id = request.POST.get('id')
+        new_category = request.POST.get('name')
+        if not category_id or not new_category:
+            messages.error(request,'invalid')
+        category = get_object_or_404(Category, id=category_id)
+        category.name = new_category
+        category.save()
+        messages.success(request,'Category edited successfully')
+        return redirect('home')
 
 # logout view
 class LogoutView(View):  
